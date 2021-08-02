@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+      
       - name: Create App Specific Kubernetes Manifests
         uses: Azure/k8s-bake@v1
         id: bake
@@ -35,7 +35,7 @@ jobs:
           helm-version: 'latest'
           silent: 'false'
         env:
-          RELEASE_NAME: ${{ github.event.inputs.release }/,/\\\,}
+          RELEASE_NAME: $(echo "hello world")
 
       - name: Publish manifest files
         uses: actions/upload-artifact@v2
