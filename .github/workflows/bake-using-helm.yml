@@ -17,16 +17,16 @@ jobs:
         with:
           renderEngine: 'helm'
           helmChart: './reviewer/'
-          overrides: |     
-            namespace: OVERRIDE_NAMESPACE
-            vm.dnsPrefix: OVERRIDE_PREFIX
-            vm.region: OVERRIDE_REGION
-            release.repo: OVERRIDE_REPO
-            release.name: OVERRIDE_NAME
-            identity.api.resource: OVERRIDE_RESOURCE_API
-            identity.api.client: OVERRIDE_CLIENT_API
-            identity.ui.resource: OVERRIDE_RESOURCE_UI
-            identity.ui.client: OVERRIDE_CLIENT_UI
+          overrides: |
+            namespace:OVERRIDE_NAMESPACE
+            vm.dnsPrefix:OVERRIDE_PREFIX
+            vm.region:OVERRIDE_REGION
+            release.repo:OVERRIDE_REPO
+            release.name:OVERRIDE_NAME
+            identity.api.resource:OVERRIDE_RESOURCE_API
+            identity.api.client:OVERRIDE_CLIENT_API
+            identity.ui.resource:OVERRIDE_RESOURCE_UI
+            identity.ui.client:OVERRIDE_CLIENT_UI
           helm-version: 'latest'
           silent: 'false'
 
