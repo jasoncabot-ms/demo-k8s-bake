@@ -1,0 +1,55 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviewer-api
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: reviewer-api
+  template:
+    metadata:
+      labels:
+        app: reviewer-api
+        aadpodidbinding: reviewer-api-label
+    spec:
+      containers:
+      - name: reviewer-api
+        image: ghcr.io/{{ .Values.release.repo }}/api:{{ .Values.release.name }}
+        ports:
+        - containerPort: 5000
+        env:
+        - name: "ASPNETCORE_ENVIRONMENT"
+          value: "Production"
+        - name: "ASPNETCORE_FORWARDEDHEADERS_ENABLED"
+          value: "true"
+        - name: "AllowedOrigin"
+          value: "https://{{ .Values.vm.dnsPrefix }}.{{ .Values.vm.region }}.cloudapp.azure.com/"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviewer-ui
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: reviewer-ui
+  template:
+    metadata:
+      labels:
+        app: reviewer-ui
+        aadpodidbinding: reviewer-ui-label
+    spec:
+      containers:
+      - name: reviewer-ui
+        image: ghcr.io/{{ .Values.release.repo }}/ui:{{ .Values.release.name }}
+        ports:
+        - containerPort: 3000
+        env:
+        - name: "API_ENDPOINT"
+          value: "https://{{ .Values.vm.dnsPrefix }}.{{ .Values.vm.region }}.cloudapp.azure.com/api"
