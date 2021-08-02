@@ -11,8 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Kubernetes bake
+      - name: Create App Specific Kubernetes Manifests
         uses: Azure/k8s-bake@v1
+        id: bake
         with:
           renderEngine: 'helm'
           helmChart: './reviewer/'
@@ -20,3 +21,9 @@ jobs:
               namespace: testing
           helm-version: 'latest'
           silent: 'false'
+
+      - name: Publish manifest files
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'App Manifests'
+          path: ${{ steps.bake.outputs.manifestsBundle }}
