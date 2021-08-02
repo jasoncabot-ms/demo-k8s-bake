@@ -18,8 +18,11 @@ jobs:
       
       - name: Workaround for helm not supporting comma in set command
         id: helm_workaround
-        run: echo "::set-output name=releaseName::${${{ github.event.inputs.release }}/,/\\\,}"
-      
+        run: |
+          WORKAROUND=${{ github.event.inputs.release }}
+          WORKAROUND=${WORKAROUND/,/\\\,} # https://github.com/helm/helm/issues/1556
+          echo "::set-output name=release::\"$WORKAROUND\""
+
       - name: Create App Specific Kubernetes Manifests
         uses: Azure/k8s-bake@v1
         id: bake
@@ -31,15 +34,13 @@ jobs:
             vm.dnsPrefix:OVERRIDE_PREFIX
             vm.region:OVERRIDE_REGION
             release.repo:OVERRIDE_REPO
-            release.name:${{ steps.helm_workaround.outputs.releaseName }}
+            release.name:${{ steps.helm_workaround.outputs.release }}
             identity.api.resource:OVERRIDE_RESOURCE_API
             identity.api.client:OVERRIDE_CLIENT_API
             identity.ui.resource:OVERRIDE_RESOURCE_UI
             identity.ui.client:OVERRIDE_CLIENT_UI
           helm-version: 'latest'
           silent: 'false'
-        env:
-          RELEASE_NAME: ${$(echo "hello,world")/,/\\\,}
 
       - name: Publish manifest files
         uses: actions/upload-artifact@v2
