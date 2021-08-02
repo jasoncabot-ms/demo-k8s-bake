@@ -3,6 +3,11 @@ name: Helm Bake
 # Controls when the workflow will run
 on:
   workflow_dispatch:
+    inputs:
+      release:
+        description: "Try something with a comma"
+        required: true
+        default: OVERRIDE,NAME1
 
 jobs:
   build:
@@ -29,6 +34,8 @@ jobs:
             identity.ui.client:OVERRIDE_CLIENT_UI
           helm-version: 'latest'
           silent: 'false'
+        env:
+          RELEASE_NAME: ${{ github.inputs.release }}
 
       - name: Publish manifest files
         uses: actions/upload-artifact@v2
