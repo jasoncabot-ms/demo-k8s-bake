@@ -35,7 +35,7 @@ jobs:
           helm-version: 'latest'
           silent: 'false'
         env:
-          RELEASE_NAME: ${{ github.inputs.release }}
+          RELEASE_NAME: ${{ github.event.inputs.release }}
 
       - name: Publish manifest files
         uses: actions/upload-artifact@v2
