@@ -22,7 +22,7 @@ jobs:
             vm.dnsPrefix:OVERRIDE_PREFIX
             vm.region:OVERRIDE_REGION
             release.repo:OVERRIDE_REPO
-            release.name:OVERRIDE_NAME
+            release.name:OVERRIDE,NAME1
             identity.api.resource:OVERRIDE_RESOURCE_API
             identity.api.client:OVERRIDE_CLIENT_API
             identity.ui.resource:OVERRIDE_RESOURCE_UI
