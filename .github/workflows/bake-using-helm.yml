@@ -21,7 +21,7 @@ jobs:
         run: |
           WORKAROUND=${{ github.event.inputs.release }}
           WORKAROUND=${WORKAROUND/,/\\\,} # https://github.com/helm/helm/issues/1556
-          echo "::set-output name=release::\"$WORKAROUND\""
+          echo "::set-output name=release::$WORKAROUND"
 
       - name: Create App Specific Kubernetes Manifests
         uses: Azure/k8s-bake@v1
