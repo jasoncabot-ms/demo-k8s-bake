@@ -1,0 +1,22 @@
+name: Helm Bake
+
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Kubernetes bake
+        uses: Azure/k8s-bake@v1
+        with:
+          renderEngine: 'helm'
+          helmChart: './reviewer/'
+          overrides: |     
+              namespace: testing
+          helm-version: 'latest'
+          silent: 'false'
